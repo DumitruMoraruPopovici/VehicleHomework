@@ -2,14 +2,7 @@ package org.example;
 
 public class Logan extends Dacia{
 
-    public Logan (float availableFuel, String chassisNumber) {
-        this.availableFuel = availableFuel;
-        this.chassisNumber = chassisNumber;
-
-    }
-
-    @Override
-    public void setAvailableFuel(float availableFuel) {
-        super.setAvailableFuel(availableFuel);
+    public Logan(double fuelTankSize, String fuelType, int maxGears, double consumptionPer100Km) {
+        super(fuelTankSize, fuelType, maxGears, consumptionPer100Km);
     }
 }
