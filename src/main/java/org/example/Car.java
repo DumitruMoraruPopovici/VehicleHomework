@@ -3,19 +3,28 @@ package org.example;
 /**
  * Class Car with her properties and behavior
  */
-public class Car extends Vehicle{
-    final float fuelTankSize = 60;
-    final String fuelType = "Diesel";
+public abstract class Car implements Vehicle{
+    protected final double fuelTankSize;
+    protected final String fuelType;
 
-    final int gears = 6;
+    protected final int maxGears;
 
-    final float consumptionPer100Km = (float) 4.7F;
+    protected final double consumptionPer100Km;
 
-    public float availableFuel;
-    public int tireSize;
-    public String chassisNumber;
+    protected double availableFuel;
+    protected int tireSize;
+    protected String chassisNumber;
+    protected int currentGear;
+    protected double averageFuelConsumptionPerDrive;
+    protected int totalKm;
+    protected double totalFuelConsumed;
 
-
+    public Car(double fuelTankSize, String fuelType, int maxGears, double consumptionPer100Km) {
+        this.fuelTankSize = fuelTankSize;
+        this.fuelType = fuelType;
+        this.maxGears = maxGears;
+        this.consumptionPer100Km = consumptionPer100Km;
+    }
 
     /**
      * starting the car with overriding start from vehicle
@@ -23,6 +32,9 @@ public class Car extends Vehicle{
     @Override
     public void start() {
         System.out.println("Car is starting");
+        averageFuelConsumptionPerDrive = 0;
+        totalKm = 0;
+        totalFuelConsumed = 0;
     }
 
     /**
@@ -30,47 +42,46 @@ public class Car extends Vehicle{
      * @param gear
      */
     public void shiftGear (int gear) {
-        if (gear <= gears) {
-            System.out.println("Car is in gear " + gear);
+        if ((gear > maxGears) || (gear < 0)) {
+            System.out.println("Invalid gear");
+            return;
+        }
+        calculatedAverageFuelConsumForGear(gear);
+        currentGear = gear;
+    }
+
+    private void calculatedAverageFuelConsumForGear (int gear) {
+        if(this.currentGear < gear) {
+            averageFuelConsumptionPerDrive *= (1 + (gear - currentGear) / 10);
+        }
+        else {
+            averageFuelConsumptionPerDrive /= (1 + (currentGear - gear) / 10);
         }
     }
 
     /**
-     * method for the spees of car
-     * @param speed
+     * method for the drive with keeping track of fuel and average fuel consumption
+     * @param km
      */
-    public void drive (float speed) {
-        if (speed > 0) {
-            System.out.println("Drives with " + speed + " KMs");
-        }
+    public void drive (double km) {
+       double fuelConsumedPerDrive = km * consumptionPer100Km / 100;
+       availableFuel -= fuelConsumedPerDrive;
+        System.out.println("Remaining fuel is " + availableFuel);
+        totalKm +=km;
+        totalFuelConsumed +=fuelConsumedPerDrive;
     }
-
+    protected double getAverageFuelConsumption() {
+        averageFuelConsumptionPerDrive = totalFuelConsumed * 100/totalKm;
+        return averageFuelConsumptionPerDrive;
+    }
     /**
      * method for stopping the car
      */
     @Override
     public void stop() {
         System.out.println("Car is stopping");
+        System.out.println("Available fuel is " + availableFuel);
+
     }
 
-    /**
-     * getter and setter for available Fuel
-     * @return
-     */
-    public float getAvailableFuel() {
-        return availableFuel;
-    }
-
-    public void setAvailableFuel(float availableFuel) {
-        this.availableFuel = availableFuel;
-    }
-
-    /**
-     * method for average fuel consumption
-     */
-
-    public float getAverageFuelConsumption() {
-        float averageFuelConsumption = consumptionPer100Km;
-        return averageFuelConsumption;
-    }
 }

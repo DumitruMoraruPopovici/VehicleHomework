@@ -8,39 +8,46 @@ public class App
 {
     public static void main( String[] args )
     {
-        Car car = new Logan(27, "oiqe0934hkkadsn");
+        Car car = new Logan(35, "Diesel", 6, 10d);
+        car.availableFuel = 26;
         car.start();
         car.shiftGear(1);
-        car.drive((float) 0.01F);
+        car.drive(0.01);
         car.shiftGear(2);
-        car.drive(0.02F);
+        car.drive(0.02);
         car.shiftGear(3);
-        car.drive(0.5F);
+        car.drive(0.5);
         car.shiftGear(4);
-        car.drive(0.5F);
+        car.drive(0.5);
         car.shiftGear(4);
-        car.drive(0.05F);
+        car.drive(0.05);
         car.shiftGear(5);
-        car.drive(10F);
+        car.drive(10);
         car.shiftGear(4);
-        car.drive(0.05F);
+        car.drive(0.05);
         car.shiftGear(3);
-        car.drive(0.1F);
+        car.drive(0.1);
         car.stop();
-        float availableFuel = car.getAvailableFuel();
-        System.out.println(availableFuel);
-        float fuelConsumedPer100Km = car.getAverageFuelConsumption();
-        System.out.println(fuelConsumedPer100Km);
-        float consumptionPer100KmVWGolf = VWGolf.setConsumptionPer100Km(2,16);
-        System.out.println("Consumption for VWGolf is: " + consumptionPer100KmVWGolf);
-        float consumptionPer100KmVWPassat = VWPassat.setConsumptionPer100Km(2,16);
-        System.out.println("Consumption for VWPassat is: " + consumptionPer100KmVWPassat);
+        double availableFuel = car.availableFuel;
+        double fuelConsumedPer100Km = car.getAverageFuelConsumption();
+        Vehicle vehicle = new Logan(30, "Petrol", 6, 8d);
 
-        Car car2 = new SKlasse(40,"234876hgfguyqew23");
-        Car car3 = new CKlasse(37, "dasfdas987986dafs");
-        car3.getAverageFuelConsumption();
-        System.out.println(car3.getAverageFuelConsumption());
-        System.out.println(car3.getAvailableFuel());
+        vehicle.start();
+
+        vehicle.drive(1);
+
+        vehicle.stop();
+
+        Car car2 = (Car) vehicle;
+
+        double availableFuelCar2 = ((Car) vehicle).availableFuel;
+
+        double fuelConsumedPer100KmCar2 = car.getAverageFuelConsumption();
+
+        Car car3 = new SKlasse(40,"Gasoline", 5, 7d);
+        car3.availableFuel = 33;
+        Car car4 = new CKlasse(37, "Petrol", 7, 13d);
+        car4.availableFuel = 24;
 
     }
 }
